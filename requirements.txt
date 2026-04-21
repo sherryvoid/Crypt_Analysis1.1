@@ -1,0 +1,14 @@
+requests
+pandas
+matplotlib
+ta
+python-binance
+fpdf
+apscheduler 
+python-binance 
+websockets 
+asyncio
+pandas_ta
+numpy
+setuptools
+python-dotenv

@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.log
+
+.venv/
+venv/
+
+output/
+reports/
+services/*cache.json
+
+.DS_Store
