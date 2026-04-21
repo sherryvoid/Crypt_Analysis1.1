@@ -12,7 +12,9 @@ ENV_VARS = {
     'BINANCE_API_KEY': 'Your Binance API key',
     'BINANCE_API_SECRET': 'Your Binance API secret',
     'CRYPTOPANIC_API_KEY': 'CryptoPanic API key',
+    'EMAIL_SENDER': 'Email address used to send reports',
     'DEFAULT_EMAIL': 'Default email for reports',
+    'EMAIL_APP_PASSWORD': 'Gmail app password used for report delivery',
 }
 
 # Binance API endpoints

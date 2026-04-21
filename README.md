@@ -55,7 +55,7 @@ These are the main libraries actively used by the codebase:
 There are a few dependency mismatches worth knowing before setup:
 
 - `requirements.txt` lists `fpdf`, but the code currently uses `reportlab`
-- `python-dotenv` is listed, but the app does not currently call `load_dotenv()`
+- `python-dotenv` is installed and currently used by the email sender, but the rest of the app still does not load `.env` globally
 - `python-binance`, `websockets`, `asyncio`, and `ta` appear in `requirements.txt`, but they are not central to the current implementation
 
 If you are setting the project up from scratch, make sure `reportlab` and `pytest` are installed even if they are missing from `requirements.txt`.
@@ -172,7 +172,9 @@ The code expects these environment variables:
 - `BINANCE_API_KEY`
 - `BINANCE_API_SECRET`
 - `CRYPTOPANIC_API_KEY`
+- `EMAIL_SENDER`
 - `DEFAULT_EMAIL`
+- `EMAIL_APP_PASSWORD`
 
 Example shell setup:
 
@@ -180,16 +182,18 @@ Example shell setup:
 export BINANCE_API_KEY="your_binance_key"
 export BINANCE_API_SECRET="your_binance_secret"
 export CRYPTOPANIC_API_KEY="your_cryptopanic_key"
+export EMAIL_SENDER="your_gmail_address@example.com"
 export DEFAULT_EMAIL="you@example.com"
+export EMAIL_APP_PASSWORD="your_gmail_app_password"
 ```
 
 ### Important Configuration Caveat
 
-There is a `.env` file in the project, but the current codebase does not automatically load it with `python-dotenv`. That means environment variables should be exported in the shell before running the app, unless you update the startup flow to load `.env`.
+There is a `.env` file in the project, but most of the codebase still expects environment variables to be exported in the shell. The email sender now loads `.env` with `python-dotenv`, so `EMAIL_SENDER` and `EMAIL_APP_PASSWORD` can be kept there safely for report delivery.
 
 ### Email Sending Caveat
 
-`services/email_sender.py` currently contains hardcoded sender credentials. That is not safe for production or public repos. A better next step is to move email settings into environment variables before wider use.
+`services/email_sender.py` now reads both the sender account (`EMAIL_SENDER`) and the Gmail app password (`EMAIL_APP_PASSWORD`) from environment variables instead of hardcoding them in source. `DEFAULT_EMAIL` is used as the default recipient when you pick the default-email option. Keep the real values only in your local `.env` file and never commit that file.
 
 ## Running the CLI
 

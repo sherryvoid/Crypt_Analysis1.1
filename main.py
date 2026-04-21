@@ -62,15 +62,15 @@ def run_spot():
         path = generate_pdf_report(symbol, ttype, output, df)
         if path:
             print(f"✅ PDF: {path}")
-            from services.email_sender import send_email_report, SENDER_EMAIL
+            from services.email_sender import send_email_report, DEFAULT_EMAIL
             print("1-default email 2-custom")
             sel = input("> ").strip()
-            to = input("Email: ").strip() if sel == "2" else SENDER_EMAIL
+            to = input("Email: ").strip() if sel == "2" else DEFAULT_EMAIL
             try:
                 send_email_report(to, path)
             except Exception as e:
-                log.error(e)
-                print("Email error")
+                log.error(f"Failed to send email: {e}")
+                print(f"⚠️ Could not send email: {e}")
     elif choice == "r":
         return run_spot()
 
@@ -126,15 +126,15 @@ def run_futures():
         path = generate_pdf_report(symbol, "futures", output, df)
         if path:
             print(f"✅ PDF: {path}")
-            from services.email_sender import send_email_report, SENDER_EMAIL
+            from services.email_sender import send_email_report, DEFAULT_EMAIL
             print("1-default email 2-custom")
             sel = input("> ").strip()
-            to = input("Email: ").strip() if sel == "2" else SENDER_EMAIL
+            to = input("Email: ").strip() if sel == "2" else DEFAULT_EMAIL
             try:
                 send_email_report(to, path)
             except Exception as e:
-                log.error(e)
-                print("Email error")
+                log.error(f"Failed to send email: {e}")
+                print(f"⚠️ Could not send email: {e}")
     elif choice == "r":
         return run_futures()
 
@@ -281,11 +281,11 @@ def run_multi():
     pdf_path = generate_multi_pdf_report(flat, summaries)
     if pdf_path:
         print(f"✅ PDF report saved to {pdf_path}\n")
-        from services.email_sender import send_email_report, SENDER_EMAIL
+        from services.email_sender import send_email_report, DEFAULT_EMAIL
         print("Send report via email:\n1. Send to default email\n2. Enter a custom email address")
         sel = input("> ").strip()
         to = input("Enter recipient email address: ").strip(
-        ) if sel == "2" else SENDER_EMAIL
+        ) if sel == "2" else DEFAULT_EMAIL
         try:
             send_email_report(to, pdf_path)
         except Exception as e:
